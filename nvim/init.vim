@@ -6,6 +6,10 @@ Plug 'lervag/vimtex', {'for': 'latex' }
 Plug 'dsawardekar/wordpress.vim' , {'for': 'php'}
 Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
 
+""" Typescript
+  Plug 'HerringtonDarkholme/yats.vim'
+  Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+
 """ Theme
 Plug 'chriskempson/base16-vim'
 
@@ -70,6 +74,9 @@ let g:vimtex_compiler_progname = 'nvr'
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" }}}
+" Deoplete {{{
+let g:deoplete#enable_at_startup = 1
 " }}}
 "Custom Functions{{{
 "}}}
