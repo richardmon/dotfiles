@@ -1,3 +1,6 @@
+# TERMINAL
+export TERMINAL="st"
+
 # Add Binaries to Path
 for element in /home/richard/.machine/*
 do
@@ -14,3 +17,4 @@ eval "$(pyenv virtualenv-init -)"
 
 # Aliases
 alias ls='ls --color=auto'
+

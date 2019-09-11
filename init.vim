@@ -1,11 +1,28 @@
 call plug#begin('~/.local/share/nvim/plugged')
+""" Latex
 Plug 'lervag/vimtex', {'for': 'latex' }
+
+""" PHP
+Plug 'dsawardekar/wordpress.vim' , {'for': 'php'}
+Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
+
+""" Theme
 Plug 'chriskempson/base16-vim'
+
+""" Python
+Plug 'psf/black' , {'for': 'python'}
+Plug 'deoplete-plugins/deoplete-jedi', {'for': 'python'}
+
+""" General
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'tpope/vim-vinegar'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'w0rp/ale'
+Plug 'kien/ctrlp.vim'
+Plug 'mileszs/ack.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 "General Conf{{{
 syntax on
@@ -42,7 +59,7 @@ nmap gh <C-w>h
 nmap gj <C-w>j
 nmap gk <C-w>k
 "}}}
-"Termianl{{{
+"Terminal{{{
 tnoremap <Esc> <C-\><C-n> 
 nnoremap ot :terminal<Cr>
 "}}}
@@ -56,3 +73,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " }}}
 "Custom Functions{{{
 "}}}
+" Ack {{{
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+" }}}
