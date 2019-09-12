@@ -7,8 +7,9 @@ Plug 'dsawardekar/wordpress.vim' , {'for': 'php'}
 Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
 
 """ Typescript
-  Plug 'HerringtonDarkholme/yats.vim'
-  Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+
 
 """ Theme
 Plug 'chriskempson/base16-vim'
@@ -20,6 +21,8 @@ Plug 'deoplete-plugins/deoplete-jedi', {'for': 'python'}
 """ General
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'w0rp/ale'
@@ -27,6 +30,8 @@ Plug 'kien/ctrlp.vim'
 Plug 'mileszs/ack.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'janko/vim-test'
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 "General Conf{{{
 syntax on
@@ -77,6 +82,32 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " }}}
 " Deoplete {{{
 let g:deoplete#enable_at_startup = 1
+" }}}
+" Test {{{
+let test#strategy = {
+\ 'nearest': 'neovim',
+\ 'file': 'dispatch',
+\ 'suite': 'basic'
+\}
+
+nmap <silent> <leader>tn :TestNearest<CR>
+nmap <silent> <leader>tf :TestFile<CR>
+nmap <silent> <leader>ts :TestSuite<CR>
+nmap <silent> <leader>tl :TestLast<CR>
+nmap <silent> <leader>tv :TestVisit<CR>
+" }}}
+" ALE {{{
+  let g:ale_fixers = {
+  \   'javascript': [
+  \       'prettier',
+  \   ],
+  \   'typescript': [
+  \       'prettier',
+  \   ],
+  \}
+
+" Bind F8 to fixing problems with ALE
+nmap <F8> <Plug>(ale_fix)
 " }}}
 "Custom Functions{{{
 "}}}
