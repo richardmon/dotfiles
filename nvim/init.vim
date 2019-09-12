@@ -18,6 +18,10 @@ Plug 'chriskempson/base16-vim'
 Plug 'psf/black' , {'for': 'python'}
 Plug 'deoplete-plugins/deoplete-jedi', {'for': 'python'}
 
+""" Rust
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
+Plug 'sebastianmarkow/deoplete-rust', {'for': 'rust'}
+
 """ General
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'tpope/vim-vinegar'
@@ -60,7 +64,6 @@ set hlsearch
 set foldenable
 set foldmethod=marker
 "}}}
-
 "}}}
 "Movment{{{
 nmap gl <C-w>l
@@ -115,4 +118,7 @@ nmap <F8> <Plug>(ale_fix)
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
+" }}}
+" Rust Deoplete {{{
+let g:deoplete#sources#rust#racer_binary='/home/richard/.cargo/bin/racer'
 " }}}
