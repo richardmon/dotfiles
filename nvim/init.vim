@@ -24,6 +24,7 @@ Plug 'sebastianmarkow/deoplete-rust', {'for': 'rust'}
 
 """ General
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -85,6 +86,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " }}}
 " Deoplete {{{
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#rust#racer_binary='/home/richard/.cargo/bin/racer'
 " }}}
 " Test {{{
 let test#strategy = {
@@ -119,6 +121,6 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 " }}}
-" Rust Deoplete {{{
-let g:deoplete#sources#rust#racer_binary='/home/richard/.cargo/bin/racer'
+" Tagbar {{{
+nmap <F5> :TagbarToggle<CR>
 " }}}
