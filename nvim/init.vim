@@ -109,7 +109,11 @@ nmap <silent> <leader>tv :TestVisit<CR>
   \   'typescript': [
   \       'prettier',
   \   ],
+  \   'rust': [
+  \       'rustfmt',
+  \   ]
   \}
+let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
 
 " Bind F8 to fixing problems with ALE
 nmap <F8> <Plug>(ale_fix)
@@ -123,4 +127,7 @@ endif
 " }}}
 " Tagbar {{{
 nmap <F5> :TagbarToggle<CR>
+" }}}
+" Ctrlp {{{
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 " }}}
