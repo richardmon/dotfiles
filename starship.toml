@@ -1,0 +1,43 @@
+add_newline = false
+
+[character]
+symbol = "➜"
+error_symbol = "✗"
+use_symbol_for_status = true
+
+[battery]
+disabled = false
+
+[git_branch]
+symbol = "🌱 "
+truncation_length = "4"
+truncation_symbol = ""
+
+[git_state]
+progress_divider = " of "
+cherry_pick = "🍒 PICKING"
+
+[git_status]
+conflicted = "🏳"
+ahead = "🏎💨"
+behind = "😰"
+diverged = "😵"
+untracked = "🤷‍"
+stashed = "📦"
+modified = "📝"
+staged = "➕"
+renamed = "👅"
+deleted = "🗑"
+
+[jobs]
+symbol = "+ "
+threshold = 4
+
+[nodejs]
+symbol = "🤖 "
+
+[python]
+pyenv_version_name = true
+
+[rust]
+symbol = "🦀 "
