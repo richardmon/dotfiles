@@ -10,6 +10,13 @@ Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 
+""" Haskell
+Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
+
+""" Elm
+" Plug 'elmcast/elm-vim'
+Plug 'elm-tooling/elm-vim'
+Plug 'andys8/vim-elm-syntax'
 
 """ Theme
 Plug 'chriskempson/base16-vim'
@@ -20,7 +27,6 @@ Plug 'deoplete-plugins/deoplete-jedi', {'for': 'python'}
 
 """ Rust
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
-Plug 'sebastianmarkow/deoplete-rust', {'for': 'rust'}
 
 """ General
 Plug 'ludovicchabant/vim-gutentags'
@@ -35,6 +41,10 @@ Plug 'kien/ctrlp.vim'
 Plug 'mileszs/ack.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': './install.sh'
+    \ }
 Plug 'janko/vim-test'
 Plug 'airblade/vim-gitgutter'
 call plug#end()
@@ -88,6 +98,20 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#rust#racer_binary='/home/richard/.cargo/bin/racer'
 " }}}
+" LanguageClient  {{{
+let g:LanguageClient_serverCommands = {
+   \ 'haskell': ['hie-wrapper'],
+   \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+   \ }
+hi link ALEError Error
+hi Warning term=underline cterm=underline ctermfg=Yellow gui=undercurl guisp=Gold
+hi link ALEWarning Warning
+hi link ALEInfo SpellCap
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+nnoremap <F2> :call LanguageClient_contextMenu()<CR>
+" }}}
 " Test {{{
 let test#strategy = {
 \ 'nearest': 'neovim',
@@ -111,8 +135,15 @@ nmap <silent> <leader>tv :TestVisit<CR>
   \   ],
   \   'rust': [
   \       'rustfmt',
-  \   ]
+  \   ],
+  \   'elm': [
+  \       'elm-format',
+  \   ],
+  \   'haskell': [
+  \       'brittany',
+  \   ],
   \}
+let g:ale_linters = { 'elm': ['elm_ls'] }
 let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
 
 " Bind F8 to fixing problems with ALE
@@ -127,6 +158,18 @@ endif
 " }}}
 " Tagbar {{{
 nmap <F5> :TagbarToggle<CR>
+let g:tagbar_type_elm = {
+      \ 'kinds' : [
+      \ 'f:function:0:0',
+      \ 'm:modules:0:0',
+      \ 'i:imports:1:0',
+      \ 't:types:1:0',
+      \ 'a:type aliases:0:0',
+      \ 'c:type constructors:0:0',
+      \ 'p:ports:0:0',
+      \ 's:functions:0:0',
+      \ ]
+      \}
 " }}}
 " Ctrlp {{{
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
