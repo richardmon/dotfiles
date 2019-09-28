@@ -31,10 +31,9 @@ deleted = "🗑"
 
 [jobs]
 symbol = "+ "
-threshold = 4
 
 [nodejs]
-symbol = "🤖 "
+symbol = " "
 
 [python]
 pyenv_version_name = true
