@@ -96,17 +96,16 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " }}}
 " Deoplete {{{
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#rust#racer_binary='/home/richard/.cargo/bin/racer'
 " }}}
 " LanguageClient  {{{
 let g:LanguageClient_serverCommands = {
    \ 'haskell': ['hie-wrapper'],
-   \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+   \ 'rust': ['rustup', 'run', 'stable', 'rls'],
    \ }
-hi link ALEError Error
-hi Warning term=underline cterm=underline ctermfg=Yellow gui=undercurl guisp=Gold
-hi link ALEWarning Warning
-hi link ALEInfo SpellCap
+" hi link ALEError Error
+" hi Warning term=underline cterm=underline ctermfg=Yellow gui=undercurl guisp=Gold
+" hi link ALEWarning Warning
+" hi link ALEInfo SpellCap
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
@@ -133,18 +132,7 @@ nmap <silent> <leader>tv :TestVisit<CR>
   \   'typescript': [
   \       'prettier',
   \   ],
-  \   'rust': [
-  \       'rustfmt',
-  \   ],
-  \   'elm': [
-  \       'elm-format',
-  \   ],
-  \   'haskell': [
-  \       'brittany',
-  \   ],
   \}
-let g:ale_linters = { 'elm': ['elm_ls'] }
-let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
 
 " Bind F8 to fixing problems with ALE
 nmap <F8> <Plug>(ale_fix)
