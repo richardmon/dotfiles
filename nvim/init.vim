@@ -23,7 +23,6 @@ Plug 'chriskempson/base16-vim'
 
 """ Python
 Plug 'psf/black' , {'for': 'python'}
-Plug 'deoplete-plugins/deoplete-jedi', {'for': 'python'}
 
 """ Rust
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
@@ -36,15 +35,10 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'w0rp/ale'
-Plug 'kien/ctrlp.vim'
-Plug 'mileszs/ack.vim'
 Plug 'jiangmiao/auto-pairs'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': './install.sh'
-    \ }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'janko/vim-test'
 Plug 'airblade/vim-gitgutter'
 call plug#end()
@@ -94,23 +88,6 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " }}}
-" Deoplete {{{
-let g:deoplete#enable_at_startup = 1
-" }}}
-" LanguageClient  {{{
-let g:LanguageClient_serverCommands = {
-   \ 'haskell': ['hie-wrapper'],
-   \ 'rust': ['rustup', 'run', 'stable', 'rls'],
-   \ }
-" hi link ALEError Error
-" hi Warning term=underline cterm=underline ctermfg=Yellow gui=undercurl guisp=Gold
-" hi link ALEWarning Warning
-" hi link ALEInfo SpellCap
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-nnoremap <F2> :call LanguageClient_contextMenu()<CR>
-" }}}
 " Test {{{
 let test#strategy = {
 \ 'nearest': 'neovim',
@@ -124,26 +101,8 @@ nmap <silent> <leader>ts :TestSuite<CR>
 nmap <silent> <leader>tl :TestLast<CR>
 nmap <silent> <leader>tv :TestVisit<CR>
 " }}}
-" ALE {{{
-  let g:ale_fixers = {
-  \   'javascript': [
-  \       'prettier',
-  \   ],
-  \   'typescript': [
-  \       'prettier',
-  \   ],
-  \}
-
-" Bind F8 to fixing problems with ALE
-nmap <F8> <Plug>(ale_fix)
-" }}}
 "Custom Functions{{{
 "}}}
-" Ack {{{
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
-" }}}
 " Tagbar {{{
 nmap <F5> :TagbarToggle<CR>
 let g:tagbar_type_elm = {
@@ -158,7 +117,146 @@ let g:tagbar_type_elm = {
       \ 's:functions:0:0',
       \ ]
       \}
+let g:tagbar_type_haskell = {
+    \ 'ctagsbin'    : 'hasktags',
+    \ 'ctagsargs'   : '-x -c -o-',
+    \ 'kinds'       : [
+        \  'm:modules:0:1',
+        \  'd:data:0:1',
+        \  'd_gadt:data gadt:0:1',
+        \  'nt:newtype:0:1',
+        \  'c:classes:0:1',
+        \  'i:instances:0:1',
+        \  'cons:constructors:0:1',
+        \  'c_gadt:constructor gadt:0:1',
+        \  'c_a:constructor accessors:1:1',
+        \  't:type names:0:1',
+        \  'pt:pattern types:0:1',
+        \  'pi:pattern implementations:0:1',
+        \  'ft:function types:0:1',
+        \  'fi:function implementations:0:1',
+        \  'o:others:0:1'
+    \ ],
+    \ 'sro'          : '.',
+    \ 'kind2scope'   : {
+        \ 'm'        : 'module',
+        \ 'd'        : 'data',
+        \ 'd_gadt'   : 'd_gadt',
+        \ 'c_gadt'   : 'c_gadt',
+        \ 'nt'       : 'newtype',
+        \ 'cons'     : 'cons',
+        \ 'c_a'      : 'accessor',
+        \ 'c'        : 'class',
+        \ 'i'        : 'instance'
+    \ },
+    \ 'scope2kind'   : {
+        \ 'module'   : 'm',
+        \ 'data'     : 'd',
+        \ 'newtype'  : 'nt',
+        \ 'cons'     : 'c_a',
+        \ 'd_gadt'   : 'c_gadt',
+        \ 'class'    : 'ft',
+        \ 'instance' : 'ft'
+    \ }
+\ }
 " }}}
-" Ctrlp {{{
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+" Coc.nvim {{{
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+" xmap <leader>f  <Plug>(coc-format-selected)
+" nmap <leader>f  <Plug>(coc-format-selected)
+xmap <F8>  <Plug>(coc-format-selected)
+nmap <F8>  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+nmap <silent> <C-d> <Plug>(coc-range-select)
+xmap <silent> <C-d> <Plug>(coc-range-select)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " }}}
