@@ -18,6 +18,10 @@ Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'elm-tooling/elm-vim'
 Plug 'andys8/vim-elm-syntax'
 
+""" Clojure
+Plug 'guns/vim-clojure-static'
+Plug 'tpope/vim-fireplace'
+
 """ Theme
 Plug 'chriskempson/base16-vim'
 

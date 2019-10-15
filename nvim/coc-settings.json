@@ -1,4 +1,5 @@
 {
+"suggest.snippetIndicator": "🍦",
 "python.linting.pylintEnabled": true,
 "python.linting.pylintUseMinimalCheckers": false,
 "python.linting.mypyEnabled": true,
@@ -19,6 +20,16 @@
       "languageServerHaskell": {
         "hlintOn": true
       }
+    }
+  },
+  "clojure-lsp": {
+    "command": "bash",
+    "args": ["-c", "clojure-lsp"],
+    "filetypes": ["clojure"],
+    "rootPatterns": ["project.clj"],
+    "additionalSchemes": ["jar", "zipfile"],
+    "trace.server": "verbose",
+    "initializationOptions": {
     }
   }
 }
