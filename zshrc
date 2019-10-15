@@ -20,6 +20,7 @@ eval "$(starship init zsh)"
 
 # Aliases
 alias ls='ls --color=auto'
+alias flpass='lpass show -c --password $(lpass ls  | fzf | awk '"'"'{print $(NF)}'"'"' | sed '"'"'s/\]//g'"'"')'
 
 #Fuzzy Search
 export FZF_DEFAULT_COMMAND='fd --type f'
@@ -29,3 +30,4 @@ export FZF_COMPLETION_TRIGGER='~~'
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
