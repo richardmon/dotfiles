@@ -10,10 +10,16 @@ do
                 export PATH=$PATH:$element/:$element/bin/
         fi
 done
+export PATH=$PATH:/home/richard/.bin/
 # Pyenv
 export PATH="/home/richard/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+
+# Stack
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+eval "$(stack --bash-completion-script stack)"
 
 # Starship
 eval "$(starship init zsh)"

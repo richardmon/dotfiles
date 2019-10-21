@@ -12,21 +12,24 @@ Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 
 """ Haskell
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
+Plug 'twinside/vim-haskellconceal', {'for': 'haskell'}
 
 """ Elm
 " Plug 'elmcast/elm-vim'
-Plug 'elm-tooling/elm-vim'
-Plug 'andys8/vim-elm-syntax'
+Plug 'elm-tooling/elm-vim', {'for': 'elm'}
+Plug 'andys8/vim-elm-syntax', {'for': 'elm'}
 
 """ Clojure
-Plug 'guns/vim-clojure-static'
-Plug 'tpope/vim-fireplace'
+Plug 'guns/vim-clojure-static', {'for': 'clojure'}
+Plug 'tpope/vim-fireplace', {'for': 'clojure'}
 
 """ Theme
 Plug 'chriskempson/base16-vim'
 
 """ Python
 Plug 'psf/black' , {'for': 'python'}
+Plug 'ehamberg/vim-cute-python', {'for': 'python'}
+Plug 'bps/vim-textobj-python', {'for': 'python'}
 
 """ Rust
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
@@ -45,6 +48,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'janko/vim-test'
 Plug 'airblade/vim-gitgutter'
+Plug 'kana/vim-textobj-user'
 call plug#end()
 "General Conf{{{
 syntax on

@@ -3,6 +3,7 @@
 "python.linting.pylintEnabled": true,
 "python.linting.pylintUseMinimalCheckers": false,
 "python.linting.mypyEnabled": true,
+"python.formatting.provider": "black",
 "languageserver": {
   "haskell": {
     "command": "hie-wrapper",
@@ -18,7 +19,9 @@
     ],
     "initializationOptions": {
       "languageServerHaskell": {
-        "hlintOn": true
+        "hlintOn": true,
+        "liquidOn": true,
+        "formattingProvider": "brittany"
       }
     }
   },
