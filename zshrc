@@ -11,6 +11,7 @@ do
         fi
 done
 export PATH=$PATH:/home/richard/.bin/
+
 # Pyenv
 export PATH="/home/richard/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
@@ -37,3 +38,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# GOLANG
+export PATH=$PATH:$(go env GOPATH)/bin
+export GOPATH=$HOME/.go_path
+
+source /home/richard/.nix-profile/etc/profile.d/nix.sh

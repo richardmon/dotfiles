@@ -3,7 +3,9 @@
 "python.linting.pylintEnabled": true,
 "python.linting.pylintUseMinimalCheckers": false,
 "python.linting.mypyEnabled": true,
+"python.linting.mypyArgs": ["--ignore-missing-imports","--follow-imports=silent","--show-column-numbers", "--config-file setup.cfg"],
 "python.formatting.provider": "black",
+"codeLens.enable": true,
 "languageserver": {
   "haskell": {
     "command": "hie-wrapper",
@@ -33,6 +35,19 @@
     "additionalSchemes": ["jar", "zipfile"],
     "trace.server": "verbose",
     "initializationOptions": {
+    }
+  },
+  "golang": {
+    "command": "gopls",
+    "rootPatterns": ["go.mod"],
+    "filetypes": ["go"]
+  },
+  "elmLS": {
+    "command": "elm-language-server",
+    "filetypes": ["elm"],
+    "rootPatterns": ["elm.json"],
+    "initializationOptions": {
+      "elmAnalyseTrigger": "change"
     }
   }
 }

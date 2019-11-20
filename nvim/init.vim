@@ -1,6 +1,6 @@
 call plug#begin('~/.local/share/nvim/plugged')
 """ Latex
-Plug 'lervag/vimtex', {'for': 'latex' }
+Plug 'lervag/vimtex', {'for': 'latex'}
 
 """ PHP
 Plug 'dsawardekar/wordpress.vim' , {'for': 'php'}
@@ -8,20 +8,14 @@ Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
 
 """ Typescript
 Plug 'HerringtonDarkholme/yats.vim'
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+Plug 'othree/javascript-libraries-syntax.vim'
 
 """ Haskell
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'twinside/vim-haskellconceal', {'for': 'haskell'}
 
-""" Elm
-" Plug 'elmcast/elm-vim'
-Plug 'elm-tooling/elm-vim', {'for': 'elm'}
-Plug 'andys8/vim-elm-syntax', {'for': 'elm'}
-
-""" Clojure
-Plug 'guns/vim-clojure-static', {'for': 'clojure'}
-Plug 'tpope/vim-fireplace', {'for': 'clojure'}
+""" Markdown
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 
 """ Theme
 Plug 'chriskempson/base16-vim'
@@ -35,6 +29,7 @@ Plug 'bps/vim-textobj-python', {'for': 'python'}
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
 
 """ General
+Plug 'ap/vim-css-color'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-vinegar'
@@ -45,16 +40,26 @@ Plug 'honza/vim-snippets'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'janko/vim-test'
 Plug 'airblade/vim-gitgutter'
 Plug 'kana/vim-textobj-user'
+
+Plug 'taigacute/spaceline.vim'
+Plug 'ryanoasis/vim-devicons'
+
+""" Coc
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'}
 call plug#end()
 "General Conf{{{
 syntax on
 filetype plugin on
 set termguicolors
 colorscheme base16-default-dark
+
+highlight Comment cterm=italic gui=italic
 " Tabs {{{
 set tabstop=4
 set softtabstop=4
@@ -110,6 +115,9 @@ nmap <silent> <leader>tl :TestLast<CR>
 nmap <silent> <leader>tv :TestVisit<CR>
 " }}}
 "Custom Functions{{{
+hi TabLine    gui=NONE guibg=#3e4452 guifg=#abb2bf    cterm=NONE term=NONE ctermfg=black ctermbg=white
+let g:tablineclosebutton=1
+
 "}}}
 " Tagbar {{{
 nmap <F5> :TagbarToggle<CR>
@@ -248,7 +256,7 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Using CocList
 " Show all diagnostics
@@ -267,4 +275,9 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+""" Prettier {{{
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+"}}}
+
 " }}}
