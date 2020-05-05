@@ -1,9 +1,9 @@
 {
 "suggest.snippetIndicator": "🍦",
 "python.linting.pylintEnabled": true,
+"python.linting.pylintArgs": ["--load-plugins", "pylint_flask_sqlalchemy"],
 "python.linting.pylintUseMinimalCheckers": false,
 "python.linting.mypyEnabled": true,
-"python.linting.mypyArgs": ["--ignore-missing-imports","--follow-imports=silent","--show-column-numbers", "--config-file setup.cfg"],
 "python.formatting.provider": "black",
 "codeLens.enable": true,
 "languageserver": {

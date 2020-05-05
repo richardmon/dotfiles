@@ -7,21 +7,23 @@ Plug 'dsawardekar/wordpress.vim' , {'for': 'php'}
 Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
 
 """ Typescript
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'HerringtonDarkholme/yats.vim', {'for': 'typescript'}
+Plug 'othree/javascript-libraries-syntax.vim', {'for': 'typescript'}
 
 """ Haskell
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'twinside/vim-haskellconceal', {'for': 'haskell'}
 
 """ Markdown
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'markdown' }
+Plug 'godlygeek/tabular', {'for': 'markdown'}
+Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 
 """ Theme
 Plug 'chriskempson/base16-vim'
 
 """ Python
-Plug 'psf/black' , {'for': 'python'}
+Plug 'psf/black' , {'for': 'python', 'tag': '19.10b0'}
 Plug 'ehamberg/vim-cute-python', {'for': 'python'}
 Plug 'bps/vim-textobj-python', {'for': 'python'}
 
@@ -43,6 +45,11 @@ Plug 'junegunn/fzf.vim'
 Plug 'janko/vim-test'
 Plug 'airblade/vim-gitgutter'
 Plug 'kana/vim-textobj-user'
+Plug 'nathanaelkane/vim-indent-guides'
+
+""" Motion 🚅
+Plug 'yuttie/comfortable-motion.vim'
+Plug 'haya14busa/incsearch.vim'
 
 Plug 'taigacute/spaceline.vim'
 Plug 'ryanoasis/vim-devicons'
@@ -50,7 +57,6 @@ Plug 'ryanoasis/vim-devicons'
 """ Coc
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'}
 call plug#end()
 "General Conf{{{
@@ -58,8 +64,10 @@ syntax on
 filetype plugin on
 set termguicolors
 colorscheme base16-default-dark
+set nowrap
 
 highlight Comment cterm=italic gui=italic
+"}}}
 " Tabs {{{
 set tabstop=4
 set softtabstop=4
@@ -74,14 +82,12 @@ filetype indent on
 set showmatch
 let &colorcolumn="80,".join(range(120,999),",")
 "}}}
-"Searching{{{
-set incsearch
-set hlsearch
-"}}}
 "Folds{{{
 set foldenable
 set foldmethod=marker
 "}}}
+"Python{{{
+let g:python3_host_prog = '/home/richard/.venvs/neovim_python/bin/python3'
 "}}}
 "Movment{{{
 nmap gl <C-w>l
@@ -134,27 +140,27 @@ let g:tagbar_type_elm = {
       \ ]
       \}
 let g:tagbar_type_haskell = {
-    \ 'ctagsbin'    : 'hasktags',
-    \ 'ctagsargs'   : '-x -c -o-',
-    \ 'kinds'       : [
-        \  'm:modules:0:1',
-        \  'd:data:0:1',
-        \  'd_gadt:data gadt:0:1',
-        \  'nt:newtype:0:1',
-        \  'c:classes:0:1',
-        \  'i:instances:0:1',
-        \  'cons:constructors:0:1',
-        \  'c_gadt:constructor gadt:0:1',
-        \  'c_a:constructor accessors:1:1',
-        \  't:type names:0:1',
-        \  'pt:pattern types:0:1',
-        \  'pi:pattern implementations:0:1',
-        \  'ft:function types:0:1',
-        \  'fi:function implementations:0:1',
-        \  'o:others:0:1'
-    \ ],
-    \ 'sro'          : '.',
-    \ 'kind2scope'   : {
+            \ 'ctagsbin'    : 'hasktags',
+            \ 'ctagsargs'   : '-x -c -o-',
+            \ 'kinds'       : [
+                \  'm:modules:0:1',
+                \  'd:data:0:1',
+                \  'd_gadt:data gadt:0:1',
+                \  'nt:newtype:0:1',
+                \  'c:classes:0:1',
+                \  'i:instances:0:1',
+                \  'cons:constructors:0:1',
+                \  'c_gadt:constructor gadt:0:1',
+                \  'c_a:constructor accessors:1:1',
+                \  't:type names:0:1',
+                \  'pt:pattern types:0:1',
+                \  'pi:pattern implementations:0:1',
+                \  'ft:function types:0:1',
+                \  'fi:function implementations:0:1',
+                \  'o:others:0:1'
+            \ ],
+            \ 'sro'          : '.',
+            \ 'kind2scope'   : {
         \ 'm'        : 'module',
         \ 'd'        : 'data',
         \ 'd_gadt'   : 'd_gadt',
@@ -175,6 +181,9 @@ let g:tagbar_type_haskell = {
         \ 'instance' : 'ft'
     \ }
 \ }
+" }}}
+"GutenTags {{{
+let g:gutentags_file_list_command = 'rg --files'
 " }}}
 " Coc.nvim {{{
 " Use <c-space> to trigger completion.
@@ -242,9 +251,9 @@ xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
-" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <C-d> <Plug>(coc-range-select)
-xmap <silent> <C-d> <Plug>(coc-range-select)
+" Use <C-r> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+nmap <silent> <C-r> <Plug>(coc-range-select)
+xmap <silent> <C-r> <Plug>(coc-range-select)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
@@ -280,4 +289,27 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 "}}}
 
+" }}}
+" Markdown {{{
+let g:mkdp_browser = 'firefox'
+" }}}
+" Spacebar {{{
+let g:spaceline_seperate_style= 'arrow-fade'
+" }}}
+" FZF {{{
+nnoremap <C-p> :<C-u>FZF<CR>
+" }}}
+" IncSearch {{{
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
+set hlsearch
+let g:incsearch#auto_nohlsearch = 1
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
 " }}}
