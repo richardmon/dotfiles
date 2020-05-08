@@ -61,7 +61,7 @@ Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'}
 call plug#end()
 "General Conf{{{
 syntax on
-filetype plugin on
+filetype plugin indent on
 set termguicolors
 colorscheme base16-default-dark
 set nowrap
@@ -69,8 +69,11 @@ set nowrap
 highlight Comment cterm=italic gui=italic
 "}}}
 " Tabs {{{
+" show existing tab with 4 spaces width
 set tabstop=4
-set softtabstop=4
+" when indenting with '>', use 4 spaces width
+set shiftwidth=4
+" On pressing tab, insert 4 spaces
 set expandtab
 nnoremap nt :tabnew<Cr>
 "}}}
@@ -252,8 +255,8 @@ omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
 " Use <C-r> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <C-r> <Plug>(coc-range-select)
-xmap <silent> <C-r> <Plug>(coc-range-select)
+nmap <silent> <C-space>a <Plug>(coc-range-select)
+xmap <silent> <C-space>a <Plug>(coc-range-select)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
