@@ -41,5 +41,3 @@ export NVM_DIR="$HOME/.nvm"
 # GOLANG
 export PATH=$PATH:$(go env GOPATH)/bin
 export GOPATH=$HOME/.go_path
-
-source /home/richard/.nix-profile/etc/profile.d/nix.sh
