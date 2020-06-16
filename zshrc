@@ -31,7 +31,7 @@ if [ -e ~/.cargo/bin/exa ]; then
     alias ls="exa"
     alias ll="exa -l"
 fi
-if [-e ~/.cargo/bin/bat]; then
+if [ -e ~/.cargo/bin/bat ]; then
     alias cat="bat"
     alias oldcat="cat"
 fi
