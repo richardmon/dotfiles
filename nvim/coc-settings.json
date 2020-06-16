@@ -9,9 +9,11 @@
 "languageserver": {
   "haskell": {
     "command": "hie-wrapper",
+    "args": ["--lsp"],
     "rootPatterns": [
-      ".stack.yaml",
-      "cabal.config",
+      "*.cabal",
+      "stack.yaml",
+      "cabal.project",
       "package.yaml"
     ],
     "filetypes": [
@@ -21,9 +23,6 @@
     ],
     "initializationOptions": {
       "languageServerHaskell": {
-        "hlintOn": true,
-        "liquidOn": true,
-        "formattingProvider": "brittany"
       }
     }
   },

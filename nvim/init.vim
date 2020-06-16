@@ -43,9 +43,11 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'janko/vim-test'
-Plug 'airblade/vim-gitgutter'
 Plug 'kana/vim-textobj-user'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'hkupty/iron.nvim'
+
+
 
 """ Motion 🚅
 Plug 'yuttie/comfortable-motion.vim'
@@ -58,12 +60,15 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'}
+
+""" Git
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+
 call plug#end()
 "General Conf{{{
 syntax on
-filetype plugin indent on
 set termguicolors
-colorscheme base16-default-dark
 set nowrap
 
 highlight Comment cterm=italic gui=italic
@@ -78,7 +83,8 @@ set expandtab
 nnoremap nt :tabnew<Cr>
 "}}}
 "UI config {{{
-set number
+colorscheme base16-default-dark
+set number relativenumber
 set showcmd
 set cursorline
 filetype indent on
@@ -90,7 +96,7 @@ set foldenable
 set foldmethod=marker
 "}}}
 "Python{{{
-let g:python3_host_prog = '/home/richard/.venvs/neovim_python/bin/python3'
+" let g:python3_host_prog = '/home/richard/.venvs/neovim_python/bin/python3'
 "}}}
 "Movment{{{
 nmap gl <C-w>l
@@ -301,6 +307,7 @@ let g:spaceline_seperate_style= 'arrow-fade'
 " }}}
 " FZF {{{
 nnoremap <C-p> :<C-u>FZF<CR>
+nnoremap <C-p><C-b> :Buffers<CR>
 " }}}
 " IncSearch {{{
 map /  <Plug>(incsearch-forward)

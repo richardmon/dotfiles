@@ -26,10 +26,18 @@ eval "$(stack --bash-completion-script stack)"
 eval "$(starship init zsh)"
 
 # Aliases
-alias ls='ls --color=auto'
 alias flpass='lpass show -c --password $(lpass ls  | fzf | awk '"'"'{print $(NF)}'"'"' | sed '"'"'s/\]//g'"'"')'
+if [ -e ~/.cargo/bin/exa ]; then
+    alias ls="exa"
+    alias ll="exa -l"
+fi
+if [-e ~/.cargo/bin/bat]; then
+    alias cat="bat"
+    alias oldcat="cat"
+fi
 
 #Fuzzy Search
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_COMPLETION_TRIGGER='~~'
 
@@ -41,3 +49,7 @@ export NVM_DIR="$HOME/.nvm"
 # GOLANG
 export PATH=$PATH:$(go env GOPATH)/bin
 export GOPATH=$HOME/.go_path
+
+# Scripts
+alias focus="sudo bash $HOME/dotfiles/server.sh $@"
+
