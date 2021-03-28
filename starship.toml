@@ -6,10 +6,9 @@ error_symbol = "✗"
 use_symbol_for_status = true
 
 [battery]
-disabled = false
 
 [git_branch]
-symbol = "🌱 "
+symbol = "🌱"
 truncation_length = "4"
 truncation_symbol = ""
 
@@ -18,11 +17,11 @@ progress_divider = " of "
 cherry_pick = "🍒 PICKING"
 
 [git_status]
-conflicted = "🏳"
-ahead = "🏎💨"
+conflicted = ""
+ahead = "💨"
 behind = "😰"
 diverged = "😵"
-untracked = "🤷‍"
+untracked = "🤷"
 stashed = "📦"
 modified = "📝"
 staged = "➕"
@@ -39,4 +38,4 @@ symbol = " "
 pyenv_version_name = true
 
 [rust]
-symbol = "🦀 "
+symbol = "🦀"

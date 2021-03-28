@@ -1,5 +1,6 @@
 # TERMINAL
 export TERMINAL="kitty"
+export EDITOR="nvim"
 
 # Add Binaries to Path
 for element in /home/richard/.bin/*
@@ -11,6 +12,11 @@ do
         fi
 done
 export PATH=$PATH:/home/richard/.bin/
+
+# XAMPP
+export PATH=$PATH:/opt/lampp/bin
+### Kitty
+export PATH=$PATH:/home/richard/.bin/kitty-0.19.3/kitty/launcher
 
 # Pyenv
 export PATH="/home/richard/.pyenv/bin:$PATH"
@@ -28,12 +34,13 @@ eval "$(starship init zsh)"
 # Aliases
 alias flpass='lpass show -c --password $(lpass ls  | fzf | awk '"'"'{print $(NF)}'"'"' | sed '"'"'s/\]//g'"'"')'
 if [ -e ~/.cargo/bin/exa ]; then
-    alias ls="exa"
-    alias ll="exa -l"
+    alias ls="exa --color auto --icons"
+    alias ll="exa --color auto --icons -s type -lh"
+    alias la="exa --color auto --icons -a -s type -lah"
 fi
 if [ -e ~/.cargo/bin/bat ]; then
-    alias cat="bat"
     alias oldcat="cat"
+    alias cat="bat"
 fi
 
 #Fuzzy Search
@@ -47,9 +54,42 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # GOLANG
-export PATH=$PATH:$(go env GOPATH)/bin
 export GOPATH=$HOME/.go_path
+export PATH=$PATH:$(go env GOPATH)/bin
 
 # Scripts
 alias focus="sudo bash $HOME/dotfiles/server.sh $@"
 
+
+# NNN
+n ()
+{
+    # Block nesting of nnn in subshells
+    if [ -n $NNNLVL ] && [ "${NNNLVL:-0}" -ge 1 ]; then
+        echo "nnn is already running"
+        return
+    fi
+
+    # The default behaviour is to cd on quit (nnn checks if NNN_TMPFILE is set)
+    # To cd on quit only on ^G, remove the "export" as in:
+    #     NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+    # NOTE: NNN_TMPFILE is fixed, should not be modified
+    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+
+    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
+    # stty start undef
+    # stty stop undef
+    # stty lwrap undef
+    # stty lnext undef
+
+    nnn "$@"
+
+    if [ -f "$NNN_TMPFILE" ]; then
+            . "$NNN_TMPFILE"
+            rm -f "$NNN_TMPFILE" > /dev/null
+    fi
+}
+
+export NNN_PLUG='f:finder;o:fzopen;v:preview-tui'
+export NNN_FIFO=/tmp/nnn.fifo
+alias icat="kitty +kitten icat"

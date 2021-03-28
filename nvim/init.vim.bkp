@@ -20,8 +20,8 @@ Plug 'godlygeek/tabular', {'for': 'markdown'}
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 
 """ Theme
-Plug 'chriskempson/base16-vim'
-" Plug 'tanvirtin/nvim-monokai'
+" Plug 'chriskempson/base16-vim'
+Plug 'tanvirtin/nvim-monokai'
 
 """ Python
 Plug 'psf/black' , {'for': 'python', 'tag': '19.10b0'}
@@ -87,7 +87,7 @@ set expandtab
 nnoremap nt :tabnew<Cr>
 "}}}
 "UI config {{{
-colorscheme base16-default-dark
+colorscheme monokai
 set number relativenumber
 set showcmd
 set cursorline
