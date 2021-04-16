@@ -20,8 +20,7 @@ Plug 'godlygeek/tabular', {'for': 'markdown'}
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 
 """ Theme
-Plug 'chriskempson/base16-vim'
-" Plug 'tanvirtin/nvim-monokai'
+Plug 'morhetz/gruvbox'
 
 """ Python
 Plug 'psf/black' , {'for': 'python', 'tag': '19.10b0'}
@@ -38,8 +37,6 @@ Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -47,7 +44,16 @@ Plug 'janko/vim-test'
 Plug 'kana/vim-textobj-user'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'hkupty/iron.nvim'
+Plug 'mattn/emmet-vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+
+""" Snippets
+Plug 'honza/vim-snippets'
+" ES2015 code snippets (Optional)
+Plug 'epilande/vim-es2015-snippets'
+" React code snippets
+Plug 'epilande/vim-react-snippets'
+Plug 'SirVer/ultisnips'
 
 
 
@@ -56,8 +62,8 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend upda
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'haya14busa/incsearch.vim'
 
-Plug 'taigacute/spaceline.vim'
-Plug 'ryanoasis/vim-devicons'
+" Plug 'taigacute/spaceline.vim'
+" Plug 'ryanoasis/vim-devicons'
 
 """ Coc
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -87,7 +93,10 @@ set expandtab
 nnoremap nt :tabnew<Cr>
 "}}}
 "UI config {{{
-colorscheme base16-default-dark
+" colorscheme base16-default-dark
+let g:gruvbox_italic=1
+colorscheme gruvbox
+
 set number relativenumber
 set showcmd
 set cursorline
@@ -117,8 +126,8 @@ let g:vimtex_compiler_progname = 'nvr'
 "}}}
 " Ultisnips  {{{
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " }}}
 " Test {{{
 let test#strategy = {
@@ -312,6 +321,7 @@ let g:mkdp_browser = 'firefox'
 " FZF {{{
 nnoremap <C-p> :<C-u>FZF<CR>
 nnoremap <C-p><C-b> :Buffers<CR>
+nnoremap <C-p><C-l> :Lines<CR>
 " }}}
 " IncSearch {{{
 map /  <Plug>(incsearch-forward)
