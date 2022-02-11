@@ -13,6 +13,23 @@ const styles = StyleSheet.create({});
 export default $1;
 endsnippet
 
+snippet rnitem  "React Native List Picker" b
+{ label: '$1', value: '$2' }
+endsnippet
+
+snippet rnns "React Native Navigator" b
+import {createStackNavigator} from '@react-navigation/stack';
+
+const ${2:Stack} = createStackNavigator();
+const $1 = () => (
+  <$2.Navigator>
+    <$2.Screen name="$3" component={$3} />
+  </$2.Navigator>
+);
+
+export default $1;
+endsnippet
+
 snippet pp "Get Props"
 ${props => props.${1}};
 endsnippet
