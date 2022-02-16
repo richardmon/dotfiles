@@ -21,7 +21,7 @@ Plug 'morhetz/gruvbox'
 " Plug 'vim-airline/vim-airline'
 
 """ Python
-Plug 'psf/black' , {'for': 'python', 'tag': '19.10b0'}
+Plug 'psf/black' , {'for': 'python'}
 
 """ Rust
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
@@ -232,4 +232,10 @@ cmp.setup {
   },
 }
 EOF
+" }}}
+" Telescope {{{
+nnoremap <C-p><C-p> <cmd>Telescope find_files<cr>
+nnoremap <C-p><C-g> <cmd>Telescope live_grep<cr>
+nnoremap <C-p><C-b> <cmd>Telescope buffers<cr>
+nnoremap <C-p><C-h> <cmd>Telescope help_tags<cr>
 " }}}
