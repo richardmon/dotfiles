@@ -2,19 +2,14 @@ call plug#begin('~/.local/share/nvim/plugged')
 """ Latex
 Plug 'lervag/vimtex', {'for': ['plaintex', 'tex']}
 
-""" PHP
-Plug 'dsawardekar/wordpress.vim' , {'for': 'php'}
-Plug 'yaegassy/coc-intelephense', {'do': 'yarn install --frozen-lockfile'}
 
 """ Typescript
 Plug 'HerringtonDarkholme/yats.vim', {'for': 'typescript'}
 Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
-Plug 'epilande/vim-react-snippets'
 Plug 'pantharshit00/vim-prisma'
 
 """ Haskell
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
-Plug 'twinside/vim-haskellconceal', {'for': 'haskell'}
 
 """ Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'markdown' }
@@ -23,12 +18,10 @@ Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 
 """ Theme
 Plug 'morhetz/gruvbox'
-Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline'
 
 """ Python
 Plug 'psf/black' , {'for': 'python', 'tag': '19.10b0'}
-Plug 'ehamberg/vim-cute-python', {'for': 'python'}
-Plug 'bps/vim-textobj-python', {'for': 'python'}
 
 """ Rust
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
@@ -36,51 +29,36 @@ Plug 'rust-lang/rust.vim', {'for': 'rust'}
 """Graphql
 Plug 'jparise/vim-graphql', { 'for': 'javascript' }
 
-"""Golang
-Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries' }
 
 """ General
 Plug 'ap/vim-css-color'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'janko/vim-test'
-Plug 'kana/vim-textobj-user'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'hkupty/iron.nvim'
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+Plug 'tpope/vim-commentary'
 Plug 'mattn/emmet-vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 """ Snippets
-Plug 'honza/vim-snippets'
-" ES2015 code snippets (Optional)
-Plug 'epilande/vim-es2015-snippets', {'for': 'javascript'}
-" React code snippets
-Plug 'SirVer/ultisnips'
+Plug 'L3MON4D3/LuaSnip' " Snippets plugin
+Plug 'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
 
-
-""" Motion 🚅
-Plug 'yuttie/comfortable-motion.vim'
-Plug 'haya14busa/incsearch.vim'
-
-
-""" Coc
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'}
 
 """ Git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 
 call plug#end()
 "General Conf{{{
 syntax on
+let mapleader = ";"
 set termguicolors
 set nowrap
 set noswapfile " Disable swap file creation
@@ -97,10 +75,8 @@ set expandtab
 nnoremap nt :tabnew<Cr>
 "}}}
 "UI config {{{
-" colorscheme base16-default-dark
 let g:gruvbox_italic=1
 colorscheme gruvbox
-" colorscheme darkblue
 set number relativenumber
 set showcmd
 set cursorline
@@ -127,225 +103,133 @@ tnoremap <Esc> <C-\><C-n>
 nnoremap ot :terminal<Cr>
 "}}}
 " Ultisnips  {{{
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<c-j>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " }}}
-" Test {{{
-let test#strategy = {
-\ 'nearest': 'neovim',
-\ 'file': 'dispatch',
-\ 'suite': 'basic'
-\}
+" Snippets {{{
+lua require("luasnip.loaders.from_vscode").load({ paths = { "./friendly-snippets" } }) -- Load snippets from my-snippets folder
+" lua require("luasnip.loaders.from_vscode").lazy_load()
+" press <Tab> to expand or jump in a snippet. These can also be mapped separately
+" via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
+imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+" -1 for jumping backwards.
+inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
 
-nmap <silent> <leader>tn :TestNearest<CR>
-nmap <silent> <leader>tf :TestFile<CR>
-nmap <silent> <leader>ts :TestSuite<CR>
-nmap <silent> <leader>tl :TestLast<CR>
-nmap <silent> <leader>tv :TestVisit<CR>
+snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+
+" For changing choices in choiceNodes (not strictly necessary for a basic setup).
+imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+" }}}
+" Comments {{{
+lua << EOF
+require('nvim-treesitter.configs').setup {
+  ensure_installed = 'maintained',
+  highlight = {
+    enable = true,
+  },
+  context_commentstring = {
+    enable = true,
+    enable_autocmd = false,
+  }
+}
+
+EOF
 " }}}
 "Custom Functions{{{
-" hi TabLine    gui=NONE guibg=#3e4452 guifg=#abb2bf    cterm=NONE term=NONE ctermfg=black ctermbg=white
-" let g:tablineclosebutton=1
-
+hi TabLine    gui=NONE guibg=#3e4452 guifg=#abb2bf    cterm=NONE term=NONE ctermfg=black ctermbg=white
+let g:tablineclosebutton=1
 "}}}
-" Tagbar {{{
-" nmap <F5> :TagbarToggle<CR>
-" let g:tagbar_type_elm = {
-"       \ 'kinds' : [
-"       \ 'f:function:0:0',
-"       \ 'm:modules:0:0',
-"       \ 'i:imports:1:0',
-"       \ 't:types:1:0',
-"       \ 'a:type aliases:0:0',
-"       \ 'c:type constructors:0:0',
-"       \ 'p:ports:0:0',
-"       \ 's:functions:0:0',
-"       \ ]
-"       \}
-" let g:tagbar_type_haskell = {
-"             \ 'ctagsbin'    : 'hasktags',
-"             \ 'ctagsargs'   : '-x -c -o-',
-"             \ 'kinds'       : [
-"                 \  'm:modules:0:1',
-"                 \  'd:data:0:1',
-"                 \  'd_gadt:data gadt:0:1',
-"                 \  'nt:newtype:0:1',
-"                 \  'c:classes:0:1',
-"                 \  'i:instances:0:1',
-"                 \  'cons:constructors:0:1',
-"                 \  'c_gadt:constructor gadt:0:1',
-"                 \  'c_a:constructor accessors:1:1',
-"                 \  't:type names:0:1',
-"                 \  'pt:pattern types:0:1',
-"                 \  'pi:pattern implementations:0:1',
-"                 \  'ft:function types:0:1',
-"                 \  'fi:function implementations:0:1',
-"                 \  'o:others:0:1'
-"             \ ],
-"             \ 'sro'          : '.',
-"             \ 'kind2scope'   : {
-"         \ 'm'        : 'module',
-"         \ 'd'        : 'data',
-"         \ 'd_gadt'   : 'd_gadt',
-"         \ 'c_gadt'   : 'c_gadt',
-"         \ 'nt'       : 'newtype',
-"         \ 'cons'     : 'cons',
-"         \ 'c_a'      : 'accessor',
-"         \ 'c'        : 'class',
-"         \ 'i'        : 'instance'
-"     \ },
-"     \ 'scope2kind'   : {
-"         \ 'module'   : 'm',
-"         \ 'data'     : 'd',
-"         \ 'newtype'  : 'nt',
-"         \ 'cons'     : 'c_a',
-"         \ 'd_gadt'   : 'c_gadt',
-"         \ 'class'    : 'ft',
-"         \ 'instance' : 'ft'
-"     \ }
-" \ }
-" }}}
-"GutenTags {{{
-" let g:gutentags_file_list_command = 'rg --files'
-" }}}
-" Coc.nvim {{{
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" Or use `complete_info` if your vim support it, like:
-" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
-" Remap for format selected region
-" xmap <leader>f  <Plug>(coc-format-selected)
-" nmap <leader>f  <Plug>(coc-format-selected)
-xmap <F8>  <Plug>(coc-format-selected)
-nmap <F8>  <Plug>(coc-format-selected)
-
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Create mappings for function text object, requires document symbols feature of languageserver.
-xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
-
-" Use <C-r> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <C-space>a <Plug>(coc-range-select)
-xmap <silent> <C-space>a <Plug>(coc-range-select)
-
-" Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
-
-" Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" use `:OR` for organize import of current buffer
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Add status line support, for integration with other plugin, checkout `:h coc-status`
-" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" Using CocList
-" Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-
-""" Prettier {{{
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
-"}}}
-
-" }}}
 " Markdown {{{
 let g:mkdp_browser = 'firefox'
 " }}}
-" Spacebar {{{
-" let g:spaceline_seperate_style= 'arrow-fade'
-" }}}
 " Airline {{{
-let g:airline#extensions#tabline#enabled = 1
-" }}}
-" FZF {{{
-nnoremap <C-p> :<C-u>FZF<CR>
-nnoremap <C-p><C-b> :Buffers<CR>
-nnoremap <C-p><C-l> :Lines<CR>
-nnoremap <C-p><C-r> :Rg<CR>
-" }}}
-" IncSearch {{{
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-
-set hlsearch
-let g:incsearch#auto_nohlsearch = 1
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
-" }}}
-" Iron {{{
-luafile $HOME/.config/nvim/plugins.lua
+" let g:airline#extensions#tabline#enabled = 1
 " }}}
 " Javascript {{{
 au BufNewFile,BufRead *.ejs set filetype=html
+" }}}
+" LSP {{{
+nnoremap <buffer> <leader>ca :lua vim.lsp.buf.code_action()<CR>
+nnoremap <buffer> K :lua vim.lsp.buf.hover()<CR>
+nnoremap <buffer> <leader>rn :lua vim.lsp.buf.rename()<CR>
+nnoremap <buffer> gd :lua vim.lsp.buf.definition()<CR>
+nnoremap <buffer> gD :lua vim.lsp.buf.declaration()<CR>
+noremap <buffer> gr :lua vim.lsp.buf.references()<CR>
+nnoremap <buffer> <C-k> :lua vim.lsp.buf.signature_help()<CR>
+nnoremap <buffer> <leader>ff :lua vim.lsp.buf.formatting()<CR>
+
+lua << EOF
+vim.api.nvim_set_keymap('n', '<leader>ld', '<cmd>lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>lD', '<cmd>lua vim.diagnostic.setloclist()<CR>', { noremap = true, silent = true })
+EOF
+
+lua << EOF
+-- Add additional capabilities supported by nvim-cmp
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+local lspconfig = require('lspconfig')
+
+-- Enable some language servers with the additional completion capabilities offered by nvim-cmp
+-- local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver' }
+local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'prismals', 'tailwindcss' }
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    -- on_attach = my_custom_on_attach,
+    capabilities = capabilities,
+  }
+end
+
+-- luasnip setup
+local luasnip = require 'luasnip'
+
+-- nvim-cmp setup
+local cmp = require 'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end,
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  },
+}
+EOF
 " }}}
