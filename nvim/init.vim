@@ -7,6 +7,7 @@ Plug 'lervag/vimtex', {'for': ['plaintex', 'tex']}
 Plug 'HerringtonDarkholme/yats.vim', {'for': 'typescript'}
 Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
 Plug 'pantharshit00/vim-prisma'
+Plug 'prettier/vim-prettier'
 
 """ Haskell
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
@@ -40,10 +41,17 @@ Plug 'tpope/vim-commentary'
 Plug 'mattn/emmet-vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-lualine/lualine.nvim'
+
+""" CMP
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-cmdline'
+
 
 """ Snippets
 Plug 'L3MON4D3/LuaSnip' " Snippets plugin
@@ -72,7 +80,7 @@ set tabstop=4
 set shiftwidth=4
 " On pressing tab, insert 4 spaces
 set expandtab
-nnoremap nt :tabnew<Cr>
+nnoremap nt :tabnew<CR>
 "}}}
 "UI config {{{
 let g:gruvbox_italic=1
@@ -86,7 +94,9 @@ let &colorcolumn="80,".join(range(120,999),",")
 
 hi ColorColumn ctermbg=darkgrey guibg=grey
 
-set guifont=Monospace:h11
+" set guifont=Monospace:h11
+" set guifont=FiraCode\ NF:h14.5
+set guifont=Iosevka\ Term:h12
 "}}}
 "Folds{{{
 set foldenable
@@ -152,16 +162,20 @@ let g:mkdp_browser = 'firefox'
 au BufNewFile,BufRead *.ejs set filetype=html
 " }}}
 " LSP {{{
-nnoremap <buffer> <leader>ca :lua vim.lsp.buf.code_action()<CR>
-nnoremap <buffer> K :lua vim.lsp.buf.hover()<CR>
-nnoremap <buffer> <leader>rn :lua vim.lsp.buf.rename()<CR>
-nnoremap <buffer> gd :lua vim.lsp.buf.definition()<CR>
-nnoremap <buffer> gD :lua vim.lsp.buf.declaration()<CR>
-noremap <buffer> gr :lua vim.lsp.buf.references()<CR>
-nnoremap <buffer> <C-k> :lua vim.lsp.buf.signature_help()<CR>
-nnoremap <buffer> <leader>ff :lua vim.lsp.buf.formatting()<CR>
-
 lua << EOF
+-- LSP Keybindigs
+--   Buffer
+vim.api.nvim_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true, silent = false})
+-- vim.api.nvim_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', {noremap = true, silent=false})
+vim.api.nvim_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', {noremap = true}) 
+vim.api.nvim_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', {noremap = true} ) 
+vim.api.nvim_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', {noremap = true})
+vim.api.nvim_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>lua vim.lsp.buf.formatting()<CR>', {noremap = true})
+
+
+--  Diagnostics
 vim.api.nvim_set_keymap('n', '<leader>ld', '<cmd>lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
@@ -199,7 +213,7 @@ cmp.setup {
   mapping = {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
@@ -229,6 +243,13 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'path' },
+    { name = 'buffer' },
+    { name = 'cmdline' }
+  },
+  experimental = {
+    native_menu = false,
+    ghost_text = true
   },
 }
 EOF
@@ -238,4 +259,14 @@ nnoremap <C-p><C-p> <cmd>Telescope find_files<cr>
 nnoremap <C-p><C-g> <cmd>Telescope live_grep<cr>
 nnoremap <C-p><C-b> <cmd>Telescope buffers<cr>
 nnoremap <C-p><C-h> <cmd>Telescope help_tags<cr>
+lua << EOF
+vim.api.nvim_set_keymap('n', '<leader>ca', "<cmd>lua  require('telescope.builtin').lsp_code_actions( {layout_config={width=50, height=20} } ) <CR>", {noremap = true, silent=false})
+EOF
+" }}}
+" Statusline {{{
+lua << END
+require('lualine').setup{
+  options = { theme = 'gruvbox' }
+}
+END
 " }}}
